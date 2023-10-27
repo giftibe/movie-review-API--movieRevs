@@ -9,12 +9,16 @@ const User = sequelize.define('user', {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
+        unique: true
     },
 
     email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
+        set(value) {
+            this.setDataValue('email', value.trim().toLowerCase());
+        }
     },
 
     username: {
