@@ -14,12 +14,18 @@ const Admin = sequelize.define('admin', {
     username: {
         type: DataTypes.STRING,
         allowNull: false,
+        set(value) {
+            this.setDataValue('username', value.trim());
+        }
     },
 
     email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
+        set(value) {
+            this.setDataValue('email', value.trim().toLowerCase());
+        }
     },
 
     password: {
@@ -36,7 +42,6 @@ const Admin = sequelize.define('admin', {
     hooks: {
 
         beforeCreate: async (admin) => {
-            admin.role = 'admin';
             // Hash the admin password during user creation
             const hashedPassword = await bcrypt.hash(admin.password, rounds);
             admin.password = hashedPassword;
