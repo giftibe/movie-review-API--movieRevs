@@ -12,4 +12,4 @@ const Review = sequelize.define('review', {
     },
 });
 
-export default Review
+module.exports = Review
