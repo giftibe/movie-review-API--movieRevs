@@ -22,5 +22,4 @@ const database = async () => {
     }
 };
 
-exports.sequelize = sequelize;
-exports.database = database;
+module.exports = { sequelize, database };

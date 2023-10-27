@@ -45,4 +45,4 @@ const Movies = sequelize.define('movie', {
 
 Movies.hasOne(User, { foreignKey: 'reviews' });
 
-export default Movies;
+module.exports = Movies

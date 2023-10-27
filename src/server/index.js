@@ -12,6 +12,12 @@ app.use(cors());
 const PORT = process.env.PORT
 app.use(express.json())
 
+require('../server/scripts/associations/index.Association')
+
+
+
+
+
 
 async function startServer() {
     try {

@@ -58,4 +58,4 @@ const Admin = sequelize.define('admin', {
 
     timestamps: true,
 });
-export default Admin;
+module.exports = Admin;
