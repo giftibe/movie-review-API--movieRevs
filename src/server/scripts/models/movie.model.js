@@ -1,8 +1,9 @@
-const { DataTypes } = require('sequelize')
-const sequelize = require('../databases/sequelize.database');
-const { default: User } = require('./user.model');
+// const { default: User } = require('./user.model');
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../databases/sequelize.database');
 
-const Movies = sequelize.define('movie', {
+
+const Movie = sequelize.define('Movie', {
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
@@ -28,14 +29,6 @@ const Movies = sequelize.define('movie', {
         }
     },
 
-    reviews: {
-        type: DataTypes.STRING,
-        references: {
-            model: User,
-            key: 'username'
-        },
-    },
-
     rating: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -43,6 +36,6 @@ const Movies = sequelize.define('movie', {
     }
 })
 
-Movies.hasOne(User, { foreignKey: 'reviews' });
 
-module.exports = Movies
+
+module.exports = Movie

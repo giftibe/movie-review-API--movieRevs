@@ -15,6 +15,7 @@ function userReviewAssociation() {
 
 
     Review.belongsToMany(Movie, {
+        through: User,
         foreignKey: {
             name: 'user',
             allowNull: false

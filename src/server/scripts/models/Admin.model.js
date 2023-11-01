@@ -1,10 +1,10 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../databases/sequelize.database')
 const bcrypt = require('bcrypt')
 const rounds = +process.env.ROUNDS
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../databases/sequelize.database');
 
 
-const Admin = sequelize.define('admin', {
+const Admin = sequelize.define('Admin', {
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,

@@ -1,4 +1,4 @@
-import Admin from '../models/Admin.model';
+const Admin = require('../models/Admin.model');
 const Movie = require('../models/movie.model');
 
 function adminMovieAssociation() {
