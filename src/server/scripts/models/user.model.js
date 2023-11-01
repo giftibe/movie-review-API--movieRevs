@@ -29,7 +29,7 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            isIn: [['user', 'admin']], // Add allowed roles
+            isIn: [['user', 'admin']], 
         },
         defaultValue: 'user',
     },
@@ -50,7 +50,7 @@ const User = sequelize.define('User', {
             }
         },
     },
-    timestamps: false,
+    timestamps: true,
 });
 
 module.exports = User;
