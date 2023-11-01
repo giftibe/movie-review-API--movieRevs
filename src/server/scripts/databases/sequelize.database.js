@@ -7,8 +7,14 @@ const sequelize = new Sequelize(
     process.env.PASSWORD,
     {
         host: process.env.host,
-        dialect: process.env.dialect
-    }
+        dialect: process.env.dialect,
+        logging: (message) => {
+            if (message.includes('where')) {
+                console.log('');
+            }
+        }
+    },
+
 );
 
 const database = async () => {
