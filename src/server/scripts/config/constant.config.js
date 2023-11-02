@@ -47,9 +47,21 @@ MESSAGES = {
         NOT_VERIFIED: "user is not verified.",
         EMAIL_NOT_VERIFIED:
             "Email not verified. Please check your email for a verification link.",
-        VIDEO_UPLOADED: "Picture uploaded successfully",
-        VIDEO_NOT_UPLOADED: "Picture not uploaded",
         NO_ADS: 'No ads posted',
+    },
+
+    REVIEWS: {
+        ADD_SUCCESSFUL: 'Review added successfully',
+        RATING_CHANGED: 'Rating changed successfully',
+        REVIEW_DELETED: 'Deletion was successful',
+        DELETE_FAILED: 'Failed to delete review',
+        UPDATE_SUCCESSFUL: 'Update was successful',
+        UPDATE_FAILED: 'Failed to update review',
+        ADD_FAILED: 'Addition of review failed',
+        GET_ALL_FAILED: 'Fetching all reviews failed',
+        GET_ONE_FAILED: 'Fetching one review failed',
+        GET_ALL_SUCCESSFUL: 'All reviews fetched successfully',
+        GET_ONE_SUCCESSFUL: 'One review fetched successfully',
     }
 }
 
