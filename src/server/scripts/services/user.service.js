@@ -1,6 +1,9 @@
 const User = require('../models/user.model')
+const Review = require('../models/review.model')
 const generateToken = require('../utils/tokenGen')
 const { MESSAGES } = require('../config/constant.config')
+const validateID = require('../utils/validateID')
+
 
 
 class userService {
@@ -96,15 +99,11 @@ class userService {
 
 
 
-
-
     //update user
-
     async updateUser(userId, updatedUserInfo) {
 
         try {
             const searchUser = await User.findByPk(userId, { attributes: { exclude: ['password'] } });
-
             if (searchUser) {
                 const updated = await User.update(updatedUserInfo, {
                     where: {
@@ -140,17 +139,147 @@ class userService {
     }
 
 
-    //delete user
+    //find a user
+    async findUser(userData) {
+        try {
+            //validate the userData
+            if (validateID(userData)) {
+                const findUser = await User.findByPk(userData)
+                if (findUser) {
+                    return {
+                        message: MESSAGES.USER.USER_FOUND,
+                        success: true
+                    }
+                } else {
+                    return {
+                        message: MESSAGES.USER.NO_USER_FOUND,
+                        success: false
+                    }
+                }
+            } else {
+                return {
+                    message: MESSAGES.USER.INCORRECT_DETAIL,
+                    success: false
+                }
+            }
+        }
+        catch (error) {
+            return {
+                message: MESSAGES.USER.ERROR + error,
+                success: false,
+            };
+        }
+    }
 
 
-    
-    //make a review
+
+
     //delete a review
+    async deleteReview(reviewID) {
+        try {
+            const deletedUser = await Review.destroy({
+                where: {
+                    id: reviewID
+                }
+            });
+
+            if (deletedUser) {
+                return {
+                    message: MESSAGES.REVIEW.REVIEW_DELETED,
+                    success: true
+                }
+            } else {
+                return {
+                    message: MESSAGES.REVIEW.DELETE_FAILED,
+                    success: false
+                }
+            }
+        }
+        catch (error) {
+            return {
+                message: MESSAGES.USER.ERROR + error,
+                success: false,
+            };
+        }
+    }
+
     //update a review
 
+    async updateReview(reviewID, updateInfo) {
+        try {
+            if (validateID(reviewID)) {
+                const searchUser = await Review.findAll({
+                    where: { id: reviewID }
+                });
+                if (searchUser) {
+                    const newUpdate = await Review.update({ review: updateInfo }, {
+                        where: {
+                            id: reviewID
+                        },
+                        returning: true
+                    });
+                    if (newUpdate) {
+                        return {
+                            message: MESSAGES.REVIEW.UPDATED,
+                            success: true,
+                            newUpdate
+                        }
+                    } else {
+                        return {
+                            message: MESSAGES.REVIEW.UPDATE_FAILED,
+                            success: false
+                        }
+                    }
+                } else {
+                    return {
+                        message: MESSAGES.REVIEW.NOT_FOUND,
+                        success: false
+                    }
+                }
+            }
+        } catch (error) {
+            return {
+                message: MESSAGES.USER.ERROR + error,
+                success: false,
+            };
 
+        }
+    }
+
+
+
+
+    //make a review
+    // async createReview(movieID, review) {
+    //     //validate if the movieID
+    //     if (validateID(movieID)) {
+    //         const newReview = await Review.create({
+    //             userReviewId: movieID,
+    //             content: review
+    //         })
+
+    //         if (newReview) {
+    //             return {
+    //                 message: MESSAGES.REVIEW.ADD_SUCCESSFUL,
+    //                 success: true
+    //             }
+    //         } else {
+    //             return {
+    //                 message: MESSAGES.REVIEW.ADD_FAILED,
+    //                 success: false
+    //             }
+    //         }
+    //     } else {
+    //         return {
+    //             message: MESSAGES.USER.INCORRECT_DETAIL,
+    //             success: false
+    //         }
+    //     }
+    // }
 
 }
 
 module.exports = userService
+
+
 
