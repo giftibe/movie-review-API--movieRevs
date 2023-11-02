@@ -65,4 +65,4 @@ MESSAGES = {
     }
 }
 
-module.exports = { MESSAGES, ENUM, DBconfig }
+module.exports = { MESSAGES, DBconfig }

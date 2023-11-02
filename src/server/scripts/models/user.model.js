@@ -22,14 +22,14 @@ const User = sequelize.define('User', {
 
     username: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
 
     role: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            isIn: [['user', 'admin']], 
+            isIn: [['user', 'admin']],
         },
         defaultValue: 'user',
     },
