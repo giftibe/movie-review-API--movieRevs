@@ -13,36 +13,41 @@ class userService {
         try {
             const { email } = data;
             //check if email exist
-            const users = await User.findAll({ where: email, attributes: { exclude: ["password"] } });
-            if (users) {
-                return res.status(409).send({
-                    message: 'Email already exists',
-                    success: false
-                })
-            }
+            const users = await User.findAll({
+                where: { email },
+                attributes: { exclude: ["password"] }
+            });
 
-            const newUser = await create({
+            if (users && users[0]) {
+                return {
+                    message: MESSAGES.USER.ERROR + error,
+                    success: false,
+                };
+            }
+            const newUser = await User.create({
                 email: email,
-                password: data.password
+                password: data.password,
+                username: data.username
             })
 
             if (newUser) {
                 const userDetails = await User.findByPk(newUser.id, { attributes: { exclude: ["password"] } });
                 const Token = generateToken(userDetails)
 
-                const { password, ...details } = data.toJSON();
                 return {
-                    message: MESSAGES.USER_LOGGEDIN,
+                    message: MESSAGES.USER.CREATED,
                     success: true,
-                    details,
+                    userDetails,
                     Token
                 }
-            } else {
+            }
+            else {
                 return {
                     message: 'Unable to create user',
                     success: false
                 }
             }
+
 
         } catch (error) {
             return {
@@ -279,7 +284,7 @@ class userService {
 
 }
 
-module.exports = userService
+module.exports = new userService()
 
 
 
