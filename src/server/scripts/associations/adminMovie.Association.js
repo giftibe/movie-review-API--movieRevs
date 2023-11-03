@@ -3,13 +3,13 @@ const Movie = require('../models/movie.model');
 
 function adminMovieAssociation() {
     Admin.hasMany(Movie, {
-        foreignKey: 'adMovieId',
+        foreignKey: 'admin_Id',
         allowNull: false
     })
 
-    Movie.hasOne(Admin, {
+    Movie.belongsTo(Admin, {
         foreignKey: {
-            name: 'adminId',
+            name: 'review_Id',
             allowNull: false
         }
     })

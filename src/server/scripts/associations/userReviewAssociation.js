@@ -7,19 +7,19 @@ function userReviewAssociation() {
     User.hasMany(Review,
         {
             foreignKey: {
-                name: 'userReviews',
+                name: 'user_Id',
                 allowNull: false
             },
-            onDelete: 'CASCADE'
+            // onDelete: 'CASCADE'
         });
 
 
     Review.belongsTo(User, {
         foreignKey: {
-            name: 'userReviewId',
+            name: 'review_Id',
             allowNull: false
         },
-        onDelete: 'CASCADE'
+        // onDelete: 'CASCADE'
     })
 }
 
