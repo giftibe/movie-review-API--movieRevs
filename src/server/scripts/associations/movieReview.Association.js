@@ -5,14 +5,14 @@ const Review = require('../models/review.model');
 function MovieReviewAssociation() {
     Movie.hasMany(Review, {
         foreignKey: {
-            name: 'moviesId',
+            name: 'movie_Id',
             allowNull: true,
         }, onDelete: 'CASCADE'
     })
 
     Review.belongsTo(Movie, {
         foreignKey: {
-            name: 'ReviewsId',
+            name: 'movie_Id',
             allowNull: true,
         }
 

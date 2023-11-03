@@ -18,7 +18,7 @@ class userService {
                 attributes: { exclude: ["password"] }
             });
 
-            if (users && users[0]) {
+            if (users.length === 0) {
                 return {
                     message: MESSAGES.USER.ERROR + error,
                     success: false,
@@ -40,8 +40,7 @@ class userService {
                     userDetails,
                     Token
                 }
-            }
-            else {
+            } else {
                 return {
                     message: 'Unable to create user',
                     success: false
