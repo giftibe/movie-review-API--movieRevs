@@ -19,14 +19,18 @@ class userController {
             const data = req.body
             const result = await createUser(data)
             return res.status(200).send({
-                message: result,
+                message: result
             })
+
         } catch (error) {
+
             res.status(500).send({
                 message: 'Internal Server Error ' + error,
             })
+            
         }
     }
+
 
     //    @route   POST /api/v1/user/login
     //     @desc    Handles user login
@@ -45,6 +49,91 @@ class userController {
         }
     }
 
+
+    //    @route   PATCH /api/v1/user/update
+    //     @desc    Handles user update
+    //     *  @access  Private
+
+    async update_user(req, res) {
+        try {
+            const { updatedUserInfo } = req.body
+            const { userId } = req.params
+
+            const result = await updateUser(userId, updatedUserInfo)
+            return res.status(200).send({
+                result
+            })
+        } catch (error) {
+            res.status(500).send({
+                message: 'Internal Server Error ' + error,
+            })
+        }
+    }
+
+    //    @route   POST /api/v1/user/search
+    //     @desc    Handles user search
+    //     *  @access  Private
+
+    async find_User(req, res) {
+        try {
+
+            const { userData } = req.params
+            const result = await findUser(userData)
+            return res.status(200).send({
+                result
+            })
+
+        } catch (error) {
+            res.status(500).send({
+                message: 'Internal Server Error ' + error,
+            })
+        }
+    }
+
+    // delete a review
+    async delete_Review(req, res) {
+        try {
+            const { reviewID } = req.params
+            const result = await deleteReview(reviewID)
+            return res.status(200).send({
+                result
+            })
+        } catch (error) {
+            res.status(500).send({
+                message: 'Internal Server Error ' + error,
+            })
+        }
+    }
+
+
+    //update review
+    async update_Review(req, res) {
+        try {
+            const { reviewID } = req.params;
+            const { updateInfo } = req.body
+            const result = await updateReview(reviewID, updateInfo)
+            return res.status(200).send({
+                result
+            })
+        } catch (error) {
+            res.status(500).send({
+                message: 'Internal Server Error ' + error,
+            })
+        }
+    }
+
+
+    // make a review
+    
+
+
+
+
 }
+
+
+
+
+
 
 module.exports = new userController()

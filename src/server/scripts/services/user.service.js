@@ -12,42 +12,47 @@ class userService {
     async createUser(data) {
         try {
             const { email } = data;
-            //check if email exist
+            // Check if email exists
             const users = await User.findAll({
                 where: { email },
                 attributes: { exclude: ["password"] }
             });
 
-            if (users.length === 0) {
+            const emailExists = users.length > 0;
+            const errorMessage = emailExists
+                ? MESSAGES.USER.ERROR + "Email already exist"
+                : " User created";
+
+            if (emailExists) {
                 return {
-                    message: MESSAGES.USER.ERROR + error,
+                    message: errorMessage,
                     success: false,
                 };
             }
+
+            // Create a new user
             const newUser = await User.create({
                 email: email,
                 password: data.password,
                 username: data.username
-            })
+            });
 
             if (newUser) {
                 const userDetails = await User.findByPk(newUser.id, { attributes: { exclude: ["password"] } });
-                const Token = generateToken(userDetails)
+                const Token = generateToken(userDetails);
 
                 return {
                     message: MESSAGES.USER.CREATED,
                     success: true,
                     userDetails,
                     Token
-                }
-            } else {
-                return {
-                    message: 'Unable to create user',
-                    success: false
-                }
+                };
             }
 
-
+            return {
+                message: "ERROR: Unable to create user",
+                success: false
+            };
         } catch (error) {
             return {
                 message: MESSAGES.USER.ERROR + error,
@@ -55,6 +60,7 @@ class userService {
             };
         }
     }
+
 
 
 
