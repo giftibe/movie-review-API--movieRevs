@@ -8,7 +8,6 @@ const User = sequelize.define('User', {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
-        unique: true,
     },
 
     email: {
@@ -52,14 +51,6 @@ const User = sequelize.define('User', {
     },
 
     timestamps: true,
-
-    indexes: [
-        {
-            unique: true,
-            fields: ['email'],
-        },
-    ]
-
 });
 
 module.exports = User;

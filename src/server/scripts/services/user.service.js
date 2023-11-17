@@ -3,6 +3,11 @@ const Review = require('../models/review.model')
 const generateToken = require('../utils/tokenGen')
 const { MESSAGES } = require('../config/constant.config')
 const validateID = require('../utils/validateID')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const { SECRET_KEY } = MESSAGES.SECRET;
+
+
 
 
 
@@ -70,6 +75,7 @@ class userService {
         try {
             const email = userData.email;
 
+
             //check if the user email exists in db
             const findUser = await User.findOne({ where: { email: email } })
             if (!findUser) {
@@ -114,18 +120,21 @@ class userService {
 
         try {
             const searchUser = await User.findByPk(userId, { attributes: { exclude: ['password'] } });
+
             if (searchUser) {
                 const updated = await User.update(updatedUserInfo, {
                     where: {
                         id: userId
                     }, returning: true
                 });
+                const searchUser = await User.findByPk(userId, { attributes: { exclude: ['password'] } });
+
 
                 if (updated) {
                     return {
                         message: MESSAGES.USER.ACCOUNT_UPDATED,
                         success: true,
-                        updated,
+                        result: searchUser,
                     };
                 } else {
                     return {
@@ -150,15 +159,16 @@ class userService {
 
 
     //find a user
-    async findUser(userData) {
+    async findUser(userId) {
         try {
             //validate the userData
-            if (validateID(userData)) {
-                const findUser = await User.findByPk(userData)
+            if (validateID(userId)) {
+                const findUser = await User.findByPk(userId, { attributes: { exclude: ['password'] } })
                 if (findUser) {
                     return {
                         message: MESSAGES.USER.USER_FOUND,
-                        success: true
+                        success: true,
+                        findUser
                     }
                 } else {
                     return {
@@ -257,35 +267,43 @@ class userService {
     }
 
 
+    // make a review
+    async createReview(movieID, review) {
 
+        //validate if the movieID
+        console.log('first', movieID)
+        console.log('second', review)
 
-    //make a review
-    // async createReview(movieID, review) {
-    //     //validate if the movieID
-    //     if (validateID(movieID)) {
-    //         const newReview = await Review.create({
-    //             userReviewId: movieID,
-    //             content: review
-    //         })
+        // if (validateID(movieID)) {
+            const newReview = await Review.create({
+                movieID: movieID,
+                content: review,
+                // reviewerId: user.ID //coming from the cookies
+            })
 
-    //         if (newReview) {
-    //             return {
-    //                 message: MESSAGES.REVIEW.ADD_SUCCESSFUL,
-    //                 success: true
-    //             }
-    //         } else {
-    //             return {
-    //                 message: MESSAGES.REVIEW.ADD_FAILED,
-    //                 success: false
-    //             }
-    //         }
-    //     } else {
-    //         return {
-    //             message: MESSAGES.USER.INCORRECT_DETAIL,
-    //             success: false
-    //         }
-    //     }
-    // }
+            console.log('newReview', newReview)
+
+            if (newReview) {
+                return {
+                    message: MESSAGES.REVIEW.ADD_SUCCESSFUL,
+                    success: true,
+                    newReview
+                }
+            }
+
+            else {
+                return {
+                    message: MESSAGES.REVIEW.ADD_FAILED,
+                    success: false
+                }
+            }
+        // } else {
+            // return {
+            //     message: MESSAGES.USER.INCORRECT_DETAIL,
+            //     success: false
+            // }
+        // }
+    }
 
 }
 

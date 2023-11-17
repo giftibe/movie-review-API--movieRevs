@@ -5,6 +5,7 @@ const {
     updateUser,
     findUser,
     deleteReview,
+    createReview
 } = userServices
 
 class userController {
@@ -27,7 +28,7 @@ class userController {
             res.status(500).send({
                 message: 'Internal Server Error ' + error,
             })
-            
+
         }
     }
 
@@ -56,7 +57,7 @@ class userController {
 
     async update_user(req, res) {
         try {
-            const { updatedUserInfo } = req.body
+            const updatedUserInfo = req.body
             const { userId } = req.params
 
             const result = await updateUser(userId, updatedUserInfo)
@@ -77,8 +78,8 @@ class userController {
     async find_User(req, res) {
         try {
 
-            const { userData } = req.params
-            const result = await findUser(userData)
+            const { userId } = req.params
+            const result = await findUser(userId)
             return res.status(200).send({
                 result
             })
@@ -124,11 +125,20 @@ class userController {
 
 
     // make a review
-    
-
-
-
-
+    async create_Review(req, res) {
+        try {
+            const { movieID } = req.params;
+            const review = req.body
+            const result = await createReview(movieID, review)
+            return res.status(200).send({
+                result
+            })
+        } catch (error) {
+            res.status(500).send({
+                message: 'Internal Server Error ' + error,
+            })
+        }
+    }
 }
 
 

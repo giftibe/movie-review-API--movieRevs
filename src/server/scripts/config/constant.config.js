@@ -6,11 +6,17 @@ const DBconfig = {
     ddialect: process.env.dialect
 };
 
+require('dotenv').config({ path: '../../.env' })
+
 
 MESSAGES = {
     DATABASE: {
         CONNECTED: 'Database connected',
         ERROR: "An error occured while connecting to database ",
+    },
+
+    SECRET: {
+        SECRET_KEY: process.env.SECRET_KEY
     },
 
     USER: {
@@ -36,7 +42,7 @@ MESSAGES = {
         ACCOUNT_DELETED: "Account deleted successfully",
         NOT_ACCOUNT_DELETED: "Unable to delete user account",
         ACCOUNT_UPDATED: "Account updated successfully",
-        NOT_UPDATED: "Account updated unsuccessful",
+        NOT_UPDATED: "Account update unsuccessful",
         UNAUTHORIZED: "Unauthorized access ",
         EMAIL_SENT: "Reset link has been sent to your email",
         INVALID_LINK: "Link is invalid or has expired",
